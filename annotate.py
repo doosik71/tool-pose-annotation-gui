@@ -377,7 +377,8 @@ if __name__ == '__main__':
         
     assert len(images) > 0, 'No images found!'
 
-    annotations = [i.split(".")[0] + ".json" for i in images]
+    # ROBUST-MIPS layout: each frame folder holds raw.png + toolposes.json
+    annotations = [os.path.join(os.path.dirname(i), "toolposes.json") for i in images]
 
     AnnotationApp(images, annotations, not args.visualise_only).run()
     

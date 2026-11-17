@@ -1,10 +1,13 @@
 # Annotation GUI
+
 Polygon-style annotation GUI.
 
 [//]: # (![]&#40;demo.gif&#41;)
 
 # Usage
+
 Clone this repo and install the dependencies:
+
 ```bash
 git clone https://github.com/cai4cai/tool-pose-annotation-gui.git
 cd tool-pose-annotation-gui
@@ -15,50 +18,64 @@ python3 -m pip install -e .[dev]
 ```
 
 Run the polygon annotator:
+
 ```bash
 python3 annotate_polygon.py --pairs-json ./images/pairs.json
 ```
 
 Run the skeleton/pose annotator:
+
 ```bash
-python3 annotate.py --image-glob "images/*.png" --visualise-only
+python3 annotate.py --image-glob "dataset/Training/**/raw.png" --visualise-only
 ```
 
+Annotations are read from / written to `toolposes.json` in the same folder as each image
+(ROBUST-MIPS layout: one `raw.png` + `toolposes.json` per frame folder).
+
 ## Arguments
+
 Only two CLI arguments are supported:
 
 - `--pairs-json` (default: `./images/pairs.json`)
 - `--mask-out` (default: `./masks`)
 
 Example:
+
 ```bash
 python3 annotate_polygon.py --pairs-json G:\NeuroPPEYE\stage2_paired\pairs.json --mask-out G:\NeuroPPEYE\stage2_paired\
 ```
 
 `--pairs-json` root handling:
+
 - Relative `ref/target` (or `white/blue`) paths are resolved from the parent folder of `pairs.json`.
 
 `--mask-out` handling:
+
 - If set to a parent folder (for example `...\stage2_paired\`), a `masks` subfolder is automatically used/created.
 - If set directly to a `masks` folder (for example `...\stage2_paired\masks`), that folder is used.
 
 ## `pairs.json` format
+
 The loader supports either schema:
 
 ```json
 {"ref": "path/to/white.png", "target": "path/to/blue.png"}
 ```
+
 or
+
 ```json
 {"white": "path/to/white.png", "blue": "path/to/blue.png"}
 ```
 
 Optional metadata fields used by the GUI:
+
 - `motion_blur` (editable checkbox, persisted to `pairs.json`)
 - `Biopsy` (read-only checkbox)
 - `kinevo` (relative/absolute folder path, opened by button)
 
 Example item:
+
 ```json
 {
   "white": "case035/timepoint003/white.png",
@@ -70,6 +87,7 @@ Example item:
 ```
 
 ## GUI features
+
 - Annotate on **TAR** and **REF** panels.
 - If annotating on REF, polygon preview is shown on REF.
 - `Enter` finalizes polygon and updates overlay on both REF and TAR.
@@ -79,11 +97,14 @@ Example item:
 - Biopsy checkbox (read-only, from `pairs.json`).
 
 ## Output
+
 This annotator exports **both**:
+
 - `mask.png` (binary mask)
 - `mask.json` (polygon vertex coordinates used to create the mask)
 
 The JSON format is:
+
 ```json
 {
   "polygons": [

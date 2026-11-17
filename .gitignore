@@ -134,3 +134,4 @@ dmypy.json
 .history/
 images/
 masks/
+dataset
